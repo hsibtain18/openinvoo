@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useRef } from "react";
 import { BarChart } from "@mui/x-charts/BarChart";
 import { LineChart } from "@mui/x-charts/LineChart";
 const IndividualCharts = ({ data, config, labels }) => {
-  const chartRef = useRef(null);
 
   const chartSetting = {
     yAxis: [

@@ -31,7 +31,7 @@ const ChartConfigure = ({ onUpdate, chartToEdit, onResetEditing }) => {
   const [observationEnd, setObservationEnd] = useState<Dayjs | null>(null);
   const [editMode, setEditMode] = useState(false);
 
-  const handleClose = (
+  const handleClose = (    // for closing out
     event: React.SyntheticEvent | Event,
     reason?: SnackbarCloseReason
   ) => {
@@ -74,30 +74,28 @@ const ChartConfigure = ({ onUpdate, chartToEdit, onResetEditing }) => {
     }
     const filterSearchSeries = async () => {
       try {
-        const res = await filterSeriesByName(inputValue);
-        console.log(res);
+        const res = await filterSeriesByName(inputValue); // Get Searching value as user type
         if (res?.seriess) {
           const temp = res.seriess.map((item) => ({
             id: item.id,
             label: item.title,
           }));
           setOptions(temp);
-          console.log(options);
         }
       } catch (error) {
-        console.log(error);
+        ShowError(String(error))
         setOptions([]);
       }
     };
-    const timeoutId = setTimeout(filterSearchSeries, 300); // Add debounce
+    const timeoutId = setTimeout(filterSearchSeries, 100); // Add debounce of .1 sec
     return () => clearTimeout(timeoutId);
   }, [chartToEdit, inputValue]);
 
   const handleUpdate = () => {
     if (title && seriesId && chartType) {
-      if(chartToEdit){
-        setEditMode(false);
-        onResetEditing()
+      if (chartToEdit) {
+        setEditMode(false); // Resetting after update
+        onResetEditing();
       }
       if (observationEnd && !observationStart) {
         ShowError("Please Enter Dates");
@@ -142,10 +140,10 @@ const ChartConfigure = ({ onUpdate, chartToEdit, onResetEditing }) => {
   };
   return (
     <div>
-      <h3>Configure Chart</h3>
+      <h2>Configure Chart</h2>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={3}>
-          <Grid size={12}>
+          <Grid size={12}> 
             <Autocomplete
               value={seriesId}
               onChange={(event: any, newValue: string | null) => {
@@ -161,7 +159,6 @@ const ChartConfigure = ({ onUpdate, chartToEdit, onResetEditing }) => {
               }}
               id="search"
               options={options}
-              // sx={{ width: 100% }}
               renderInput={(params) => (
                 <TextField
                   {...params}
@@ -199,6 +196,7 @@ const ChartConfigure = ({ onUpdate, chartToEdit, onResetEditing }) => {
                 maxLength: 6,
               }}
               onChange={(e) => setColors(e.target.value)}
+              error={!!(color && color.length !== 3 && color.length !== 6)}
             />
           </Grid>
           <Grid size={6}>
@@ -247,7 +245,7 @@ const ChartConfigure = ({ onUpdate, chartToEdit, onResetEditing }) => {
           </Grid>
           <Grid size={12}>
             <Button variant="outlined" onClick={handleUpdate}>
-              Create A Chart
+              {chartToEdit ? 'Edit':'Create'}
             </Button>
           </Grid>
         </Grid>

@@ -20,6 +20,10 @@
 
 .optionsButton {
   margin: 5px 10px !important;
+  background-color: transparent !important;
+  color: #000 !important;
+  font-weight: 400 !important;
+  border: 1px solid #000 !important;
 }
 .chart-container {
   background-color: #ccc;
@@ -30,6 +34,11 @@
 .charts {
   border: 1.5px solid black;
   margin-bottom: 5px;
+}
+h2 {
+  color: #000000;
+  text-decoration: underline;
+  text-align: start;
 }
 @keyframes logo-spin {
   from {
