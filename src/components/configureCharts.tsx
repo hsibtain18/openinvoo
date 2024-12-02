@@ -31,19 +31,18 @@ const ChartConfigure = ({ onUpdate, chartToEdit, onResetEditing }) => {
   const [observationEnd, setObservationEnd] = useState<Dayjs | null>(null);
   const [editMode, setEditMode] = useState(false);
 
-  const handleClose = (    // for closing out
+  const handleClose = (    // for closing out error
     event: React.SyntheticEvent | Event,
     reason?: SnackbarCloseReason
   ) => {
     if (reason === "clickaway") {
       return;
     }
-
     setOpen(false);
   };
 
   useEffect(() => {
-    if (chartToEdit?.data) {
+    if (chartToEdit?.data) { // Populating state after edit button is clicked 
       if (!editMode) {
         setSeriesId(chartToEdit.data.config?.seriesId || "");
         setTitle(chartToEdit.data.config?.title || "");
@@ -60,7 +59,7 @@ const ChartConfigure = ({ onUpdate, chartToEdit, onResetEditing }) => {
             ? dayjs(chartToEdit.data.config.end)
             : null
         );
-        setEditMode(true);
+        setEditMode(true);  // Disable re-run of code as chartToEdit is added in dependency ArrayList
       }
       return;
     }
@@ -70,7 +69,7 @@ const ChartConfigure = ({ onUpdate, chartToEdit, onResetEditing }) => {
       return;
     }
     if (dropdown) {
-      return;
+      return;   // Stopping reSearching after an option is clicked from dropdown  
     }
     const filterSearchSeries = async () => {
       try {
